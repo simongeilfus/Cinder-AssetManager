@@ -5,12 +5,14 @@ Cinder-AssetManager
 
 By default the asset will automaticaly be watched and reloaded on the fly.
 
+```c++
     AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
         
         mTexture = gl::Texture::create( loadImage( dataSource ) );
         
         setWindowSize( mTexture->getWidth(), mTexture->getHeight() );
     } );
+```
 
 **Async:**
 
@@ -19,7 +21,7 @@ specify if you want asynchronous loading. In that case the loading will occur in
 a separated thread, and will not block the main thread. Be carefull what you do
 inside that thread.
 
-```
+```c++
     AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
         
         mSurface = Surface( loadImage( dataSource ) );
@@ -56,6 +58,7 @@ Use the templated version if you want to pass an object from the loading thread 
 
 **File Grouping:**
 
+```c++
     AssetManager::load( "test.vert", "test.frag", [this]( DataSourceRef vert, DataSourceRef frag ) {
         
         // Load our shader and test if it is correctly compiled
@@ -66,6 +69,7 @@ Use the templated version if you want to pass an object from the loading thread 
             console() << exc.what() << endl;
         }
     } );
+```
 
 
 Thanks to initializer lists and variadic templates we can group any number of assets
@@ -77,6 +81,7 @@ The only downside right now is that lambdas with a capture list can't be implici
 the variadic function pointer AssetManager is using, so the code looks a bit redundant,
 because you need to specify twice the method signature ( cast + lambda parameters ).
     
+```c++
     AssetManager::load( { "test.vert", "test.frag" }, (function<void(DataSourceRef,DataSourceRef)>) [this]( DataSourceRef vert, DataSourceRef frag ) {
         
         // Load our shader and test if it is correctly compiled
@@ -86,4 +91,5 @@ because you need to specify twice the method signature ( cast + lambda parameter
         catch( gl::GlslProgCompileExc exc ){
             console() << exc.what() << endl;
         }
-    } );*/
+    } );
+```

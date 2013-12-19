@@ -67,14 +67,10 @@ the variadic function pointer AssetManager is using, so the code looks a bit red
 because you need to specify twice the method signature ( cast + lambda parameters ).
     
 ```c++
-AssetManager::load( { "test.vert", "test.frag" }, (function<void(DataSourceRef,DataSourceRef)>) [this]( DataSourceRef vert, DataSourceRef frag ) {
+AssetManager::load( { "img01.png", "img02.png", "img03.png", "img04.png", "img05.png" }, 
+      (function<void(DataSourceRef,DataSourceRef,DataSourceRef,DataSourceRef,DataSourceRef)>) 
+      [this](DataSourceRef img01, DataSourceRef img02, DataSourceRef img03, DataSourceRef img04, DataSourceRef img05) {
         
-    // Load our shader and test if it is correctly compiled
-    try {
-        mShader = gl::GlslProg::create( vert, frag );
-    }
-    catch( gl::GlslProgCompileExc exc ){
-        console() << exc.what() << endl;
-    }
+    // Do something (Texture atlas?)
 } );
 ```

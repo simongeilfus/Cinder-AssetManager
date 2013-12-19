@@ -6,9 +6,9 @@ Cinder-AssetManager
 By default the asset will automaticaly be watched and reloaded on the fly.
 
 ```c++
-    AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
-        mTexture = gl::Texture::create( loadImage( dataSource ) );
-    } );
+AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
+    mTexture = gl::Texture::create( loadImage( dataSource ) );
+} );
 ```
 
 **Async:**
@@ -19,42 +19,41 @@ a separated thread, and will not block the main thread. Be carefull what you do
 inside that thread.
 
 ```c++
-    AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
-        mSurface = Surface( loadImage( dataSource ) );
-    }, AssetManager::Options().asynchronous() );
+AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
+    mSurface = Surface( loadImage( dataSource ) );
+}, AssetManager::Options().asynchronous() );
 ```
 
 Use the templated version if you want to pass an object from the loading thread to the main thread. Because we are providing the load function with two callbacks there's no need to specify Options().asynchronous() like we would do with only one callback.
 
 
 ```c++
-    // Load the image in a separated thread and returns the ImageSourceRef
-    auto asyncLoad = [](DataSourceRef dataSource){
-        ImageSourceRef imageSource = loadImage( dataSource );
-        return imageSource;
-    };
+// Load the image in a separated thread and returns the ImageSourceRef
+auto asyncLoad = [](DataSourceRef dataSource){
+    ImageSourceRef imageSource = loadImage( dataSource );
+    return imageSource;
+};
     
-    // The second callback is executed in the main thread so any OpenGL resources can be created here.
-    auto textureCreation = [this](ImageSourceRef imageSource){
-        mTexture = gl::Texture::create( imageSource );
-    };
+// The second callback is executed in the main thread so any OpenGL resources can be created here.
+auto textureCreation = [this](ImageSourceRef imageSource){
+    mTexture = gl::Texture::create( imageSource );
+};
 
-    AssetManager::load<ImageSourceRef>( "cinder_logo_alpha.png", asyncLoad, textureCreation );
+AssetManager::load<ImageSourceRef>( "cinder_logo_alpha.png", asyncLoad, textureCreation );
 ```
 
 **File Grouping:**
 
 ```c++
-    AssetManager::load( "test.vert", "test.frag", [this]( DataSourceRef vert, DataSourceRef frag ) {
-        
-        // Load our shader and test if it is correctly compiled
-        try {
-            mShader = gl::GlslProg::create( vert, frag );
-        }
-        catch( gl::GlslProgCompileExc exc ){
-            console() << exc.what() << endl;
-        }
-    } );
+AssetManager::load( "test.vert", "test.frag", [this]( DataSourceRef vert, DataSourceRef frag ) {
+    // Load our shader and test if it is correctly compiled
+    try {
+        mShader = gl::GlslProg::create( vert, frag );
+    }
+    catch( gl::GlslProgCompileExc exc ){
+        console() << exc.what() << endl;
+    }
+} );
 ```
 
 
@@ -68,14 +67,14 @@ the variadic function pointer AssetManager is using, so the code looks a bit red
 because you need to specify twice the method signature ( cast + lambda parameters ).
     
 ```c++
-    AssetManager::load( { "test.vert", "test.frag" }, (function<void(DataSourceRef,DataSourceRef)>) [this]( DataSourceRef vert, DataSourceRef frag ) {
+AssetManager::load( { "test.vert", "test.frag" }, (function<void(DataSourceRef,DataSourceRef)>) [this]( DataSourceRef vert, DataSourceRef frag ) {
         
-        // Load our shader and test if it is correctly compiled
-        try {
-            mShader = gl::GlslProg::create( vert, frag );
-        }
-        catch( gl::GlslProgCompileExc exc ){
-            console() << exc.what() << endl;
-        }
-    } );
+    // Load our shader and test if it is correctly compiled
+    try {
+        mShader = gl::GlslProg::create( vert, frag );
+    }
+    catch( gl::GlslProgCompileExc exc ){
+        console() << exc.what() << endl;
+    }
+} );
 ```

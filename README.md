@@ -7,10 +7,7 @@ By default the asset will automaticaly be watched and reloaded on the fly.
 
 ```c++
     AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
-        
         mTexture = gl::Texture::create( loadImage( dataSource ) );
-        
-        setWindowSize( mTexture->getWidth(), mTexture->getHeight() );
     } );
 ```
 
@@ -23,14 +20,7 @@ inside that thread.
 
 ```c++
     AssetManager::load( "cinder_logo_alpha.png", [this](DataSourceRef dataSource){
-        
         mSurface = Surface( loadImage( dataSource ) );
-        
-        // Because we are in a different thread this might not work:
-        // setWindowSize( mSurface.getWidth(), mSurface.getHeight() );
-        
-        cout << "Loading thread id: " << std::this_thread::get_id() << endl;
-        
     }, AssetManager::Options().asynchronous() );
 ```
 
@@ -47,11 +37,7 @@ Use the templated version if you want to pass an object from the loading thread 
     // The second callback is executed in the main thread so any OpenGL resources can be created here.
     auto textureCreation = [this](ImageSourceRef imageSource){
         mTexture = gl::Texture::create( imageSource );
-        
-        // It's ok to do that in the main thread:
-        setWindowSize( mTexture->getWidth(), mTexture->getHeight() );
     };
-
 
     AssetManager::load<ImageSourceRef>( "cinder_logo_alpha.png", asyncLoad, textureCreation );
 ```

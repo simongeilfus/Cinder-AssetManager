@@ -24,14 +24,6 @@ void ShaderLoadingApp::setup()
     gl::enableDepthRead();
     gl::enableDepthWrite();
     
-    // Thanks to initializer lists and variadic templates we can group any number of assets
-    // and have the same callback function called for initialization. Works the same way as the
-    // non-variadic method with the only difference in the syntax that you can use {} to declare
-    // your list of asset paths to load.
-    
-    // The only downside right now is that lambdas with a capture list can't be implicitly cast to
-    // the variadic function pointer AssetManager is using, so the code looks a bit redundant,
-    // because you need to specify twice the method signature ( cast + lambda parameters ).
     AssetManager::load( "test.vert", "test.frag", [this]( DataSourceRef vert, DataSourceRef frag ) {
         
         // Load our shader and test if it is correctly compiled

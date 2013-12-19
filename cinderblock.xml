@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+<block
+	name="AssetManager"
+	id="assetmanager"
+	author="Simon Geilfus"
+	summary="Asynchronous loading and watching of assets."
+	>
+	<supports os="macosx" />
+	<headerPattern>src/*.h</headerPattern>
+	<copyExclude>samples</copyExclude>
+	<includePath>src</includePath>
+	<source>src/AssetManager.cpp</source>
+</block>
+</cinder>

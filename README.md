@@ -1,6 +1,8 @@
 Cinder-AssetManager
 ===================
 
+*!New version is (here)[https://github.com/simongeilfus/Watchdog]!*
+
 **Hot-Reloading:**
 
 By default the asset will automaticaly be watched and reloaded on the fly.

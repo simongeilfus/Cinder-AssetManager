@@ -1,7 +1,7 @@
 Cinder-AssetManager
 ===================
 
-*!New version is (here)[https://github.com/simongeilfus/Watchdog]!*
+##New version is here: https://github.com/simongeilfus/Watchdog!##
 
 **Hot-Reloading:**
 
